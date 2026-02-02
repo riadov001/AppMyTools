@@ -7,5 +7,5 @@ export default defineConfig({
   resolve: { alias: { "@": path.resolve(__dirname, "src") } },
   root: __dirname,
   build: { outDir: "dist", emptyOutDir: true },
-  base: "./",
+  base: "/",
 });
