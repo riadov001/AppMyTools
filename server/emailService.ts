@@ -127,7 +127,7 @@ export function generateQuoteApprovedEmailHtml(data: {
     <html>
     <head>
       <meta charset="utf-8">
-      <title>Devis Validé ${data.quoteNumber}</title>
+      <title>Votre devis - ${data.quoteNumber}</title>
     </head>
     <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
       <div style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
@@ -135,40 +135,41 @@ export function generateQuoteApprovedEmailHtml(data: {
         <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Votre spécialiste jantes</p>
       </div>
       
-      <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-        <h2 style="color: #16a34a; margin-top: 0;">Devis Validé - N° ${data.quoteNumber}</h2>
-        
+      <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; border: 1px solid #eee; border-top: 0;">
+        <h2 style="color: #dc2626; margin-top: 0;">Votre devis n° ${data.quoteNumber}</h2>
         <p>Bonjour ${data.clientName},</p>
+        <p>Veuillez trouver ci-joint le devis n° <strong>${data.quoteNumber}</strong> daté du ${data.quoteDate}.</p>
         
-        <p>Bonne nouvelle ! Votre devis du ${data.quoteDate} a été validé.</p>
-        
-        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 8px; overflow: hidden;">
-          <thead>
-            <tr style="background: #f3f4f6;">
-              <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb;">Description</th>
-              <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Qté</th>
-              <th style="padding: 12px; text-align: right; border-bottom: 2px solid #e5e7eb;">Prix unit.</th>
-              <th style="padding: 12px; text-align: right; border-bottom: 2px solid #e5e7eb;">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${itemsHtml}
-          </tbody>
-        </table>
-        
-        <div style="text-align: right; margin-top: 20px; padding: 15px; background: white; border-radius: 8px;">
-          <p style="font-size: 18px; font-weight: bold; color: #16a34a; margin: 0;">Total TTC: ${data.amount}</p>
+        <div style="margin: 30px 0; padding: 20px; background: white; border: 1px solid #eee; border-radius: 5px;">
+          <h3 style="margin-top: 0; color: #333; border-bottom: 2px solid #dc2626; padding-bottom: 5px; display: inline-block;">Récapitulatif</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+              <tr style="background: #f3f4f6;">
+                <th style="padding: 10px; border: 1px solid #eee; text-align: left;">Désignation</th>
+                <th style="padding: 10px; border: 1px solid #eee; text-align: center;">Qté</th>
+                <th style="padding: 10px; border: 1px solid #eee; text-align: right;">Total HT</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsHtml}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Montant Total TTC</td>
+                <td style="padding: 10px; text-align: right; font-weight: bold; color: #dc2626; font-size: 18px;">${data.amount}</td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
         
-        <p style="margin-top: 30px;">Nous allons maintenant préparer votre facture. Vous serez notifié dès qu'elle sera disponible.</p>
+        <p>Ce devis est valable jusqu'au ${data.quoteDate}. Vous pouvez le consulter et l'accepter directement depuis votre espace client.</p>
         
-        <p>N'hésitez pas à nous contacter pour toute question.</p>
-        
+        <p>Nous restons à votre entière disposition pour toute question complémentaire.</p>
         <p>Cordialement,<br><strong>L'équipe ${data.companyName}</strong></p>
       </div>
       
       <div style="text-align: center; padding: 20px; color: #666; font-size: 12px;">
-        <p>Ce message a été envoyé automatiquement depuis ${data.companyName}.</p>
+        <p>Ce message a été envoyé automatiquement. Merci de ne pas y répondre directement.</p>
       </div>
     </body>
     </html>

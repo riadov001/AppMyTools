@@ -1930,6 +1930,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Self-profile update route
+  app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      
+      const updateSchema = z.object({
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        phone: z.string().optional().nullable(),
+        address: z.string().optional().nullable(),
+        postalCode: z.string().optional().nullable(),
+        city: z.string().optional().nullable(),
+        companyName: z.string().optional().nullable(),
+        siret: z.string().optional().nullable(),
+        tvaNumber: z.string().optional().nullable(),
+        companyAddress: z.string().optional().nullable(),
+      });
+
+      const validatedData = updateSchema.parse(req.body);
+      
+      const user = await storage.updateUser(userId, validatedData);
+      res.json(sanitizeUser(user));
+    } catch (error: any) {
+      console.error("Error updating profile:", error);
+      res.status(400).json({ message: error.message || "Erreur lors de la mise à jour du profil" });
+    }
+  });
+
   // Admin route to change user password
   app.patch("/api/admin/users/:id/password", isAuthenticated, isAdmin, async (req: any, res) => {
     try {
