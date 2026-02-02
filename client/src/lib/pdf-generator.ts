@@ -189,6 +189,7 @@ export async function generateQuotePDF(quote: Quote, clientInfo: any, serviceInf
   const margin = 15;
   const contentWidth = pageWidth - margin * 2;
   const quoteNumber = quote.reference || `DEV-${new Date(quote.createdAt || Date.now()).toLocaleDateString('fr-FR', { month: '2-digit' })}-00001`;
+  const reference = quote.reference || quoteNumber;
   
   const billingDate = new Date(quote.createdAt || Date.now()).toLocaleDateString('fr-FR');
   const dueDate = quote.validUntil ? new Date(quote.validUntil).toLocaleDateString('fr-FR') : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-FR');
@@ -218,7 +219,7 @@ export async function generateQuotePDF(quote: Quote, clientInfo: any, serviceInf
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...COLORS.dark);
-  doc.text(`N° ${quoteNumber}`, titleBoxX + titleBoxWidth / 2, 30, { align: 'center' });
+  doc.text(`N° ${reference}`, titleBoxX + titleBoxWidth / 2, 30, { align: 'center' });
   
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
@@ -473,7 +474,7 @@ export async function generateInvoicePDF(invoice: Invoice, clientInfo: any, quot
   doc.setTextColor(...COLORS.primary);
   doc.text('FACTURE', titleBoxX + titleBoxWidth / 2, 22, { align: 'center' });
   
-  const invoiceNumber = invoice.invoiceNumber || `DEV-${new Date(invoice.createdAt || Date.now()).toLocaleDateString('fr-FR', { month: '2-digit' })}-00001`;
+  const invoiceNumber = invoice.invoiceNumber || `FACT-${new Date(invoice.createdAt || Date.now()).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }).replace(/\//g, '-')}-001`;
   
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');

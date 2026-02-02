@@ -1895,14 +1895,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         email: z.string().email().optional(),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
-        phone: z.string().optional(),
-        address: z.string().optional(),
-        postalCode: z.string().optional(),
-        city: z.string().optional(),
-        companyName: z.string().optional(),
-        siret: z.string().optional(),
-        tvaNumber: z.string().optional(),
-        companyAddress: z.string().optional(),
+        phone: z.string().optional().nullable(),
+        address: z.string().optional().nullable(),
+        postalCode: z.string().optional().nullable(),
+        city: z.string().optional().nullable(),
+        companyName: z.string().optional().nullable(),
+        siret: z.string().optional().nullable(),
+        tvaNumber: z.string().optional().nullable(),
+        companyAddress: z.string().optional().nullable(),
       });
       const validatedData = updateSchema.parse(req.body);
       
