@@ -80,7 +80,21 @@ export interface IStorage {
   upsertUser(user: UpsertUser): Promise<User>;
   getAllUsers(): Promise<User[]>;
   updateUser(id: string, userData: Partial<User>): Promise<User>;
-  createUser(user: { email: string; password?: string; firstName?: string; lastName?: string; role?: "client" | "client_professionnel" | "employe" | "admin"; companyName?: string; siret?: string; tvaNumber?: string; companyAddress?: string }): Promise<User>;
+  createUser(user: { 
+    email: string; 
+    password?: string; 
+    firstName?: string; 
+    lastName?: string; 
+    phone?: string;
+    address?: string;
+    postalCode?: string;
+    city?: string;
+    role?: "client" | "client_professionnel" | "employe" | "admin"; 
+    companyName?: string; 
+    siret?: string; 
+    tvaNumber?: string; 
+    companyAddress?: string 
+  }): Promise<User>;
   deleteUser(id: string): Promise<void>;
   getServices(): Promise<Service[]>;
   getService(id: string): Promise<Service | undefined>;
@@ -229,7 +243,21 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async createUser(userData: { email: string; password?: string; firstName?: string; lastName?: string; role?: "client" | "client_professionnel" | "employe" | "admin"; companyName?: string; siret?: string; tvaNumber?: string; companyAddress?: string }): Promise<User> {
+  async createUser(userData: { 
+    email: string; 
+    password?: string; 
+    firstName?: string; 
+    lastName?: string; 
+    phone?: string;
+    address?: string;
+    postalCode?: string;
+    city?: string;
+    role?: "client" | "client_professionnel" | "employe" | "admin"; 
+    companyName?: string; 
+    siret?: string; 
+    tvaNumber?: string; 
+    companyAddress?: string 
+  }): Promise<User> {
     const [user] = await db
       .insert(users)
       .values({
@@ -237,6 +265,10 @@ export class DatabaseStorage implements IStorage {
         password: userData.password,
         firstName: userData.firstName,
         lastName: userData.lastName,
+        phone: userData.phone,
+        address: userData.address,
+        postalCode: userData.postalCode,
+        city: userData.city,
         role: userData.role || "client",
         companyName: userData.companyName,
         siret: userData.siret,

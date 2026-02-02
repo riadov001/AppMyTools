@@ -2089,10 +2089,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         email: z.string().email(),
         firstName: z.string().optional(),
         lastName: z.string().optional(),
+        phone: z.string().optional(),
+        address: z.string().optional(),
+        postalCode: z.string().optional(),
+        city: z.string().optional(),
         role: z.enum(["client", "client_professionnel", "employe", "admin"]).optional(),
+        companyName: z.string().optional(),
+        siret: z.string().optional(),
+        tvaNumber: z.string().optional(),
+        companyAddress: z.string().optional(),
       });
       const validatedData = createSchema.parse(req.body);
-      const user = await storage.createUser(validatedData);
+      
+      // Generate a default password
+      const { hashPassword } = await import("./localAuth");
+      const defaultPassword = await hashPassword("123user");
+      
+      const user = await storage.createUser({
+        ...validatedData,
+        password: defaultPassword,
+      });
       res.json(sanitizeUser(user));
     } catch (error: any) {
       console.error("Error creating user:", error);
